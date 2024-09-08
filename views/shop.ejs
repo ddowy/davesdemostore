@@ -1,0 +1,79 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="icon" href="/images/favicon.jpg">
+    <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer src="/javascripts/navbar.js"></script>
+    <script defer src="/javascripts/shopPage.js"></script>
+    <title>Shop - Dream Party Rentals</title>
+</head>
+<body>
+    <%- include('./partials/header') %>
+    <main class="primary-main">
+        <section class="main-wrapper">
+            <section class="categories zero-width">
+                <div class="shop-sidebar">
+                    <div class="shop-page-sidebar-modile-x-button-container"><button>&#10006;</button></div>
+                    <input class="product-search" type="text" name="search" placeholder="Search Products..." data-search-bar>
+                    <div class="product-search-container" data-search-container>
+                        <template data-search-template>
+                            <div data-search-wrap>
+                                <a data-result-link-body></a>
+                            </div>
+                        </template>
+                        <div class="no-search-items js-display-none">
+                            No products match your search
+                        </div>
+                    </div>
+                    <ul class="category-list js-category-list">
+                        <h2 class="header-for-category-list">Categories</h2>
+                    </ul>
+                </div>
+            </section>
+            <section class="product-listings">
+            <h2 class="shop-page-header">Shop</h2>
+            <div class="product-listings-header">
+                <button class="btn-toggle js-btn-toggle">
+                    <i class="fa-solid fa-right-left"></i>
+                </button>
+                <select name="sort" class="product-listings-sort-selection">
+                    <option>Select sorting</option>
+                    <option>Default</option>
+                    <option>Featured</option>
+                    <option>Lowest to Highest</option>
+                    <option>Highest to Lowest</option>
+                </select>
+            </div>
+                <ul class="product-listing-display">
+                    <% let numOfProducts = 0 %> 
+                    <% products.forEach(product => { %>
+                        <li class="product-listing">
+                            <a class="product-listing-wrap" href="/shop/<%= product._id %>">
+                                <% if (product.imgName != null) { %>
+                                    <% numOfProducts++ %>
+                                    <div class="product-listing-image-container">
+                                        <img class="product-listing-image" src="<%= product.primaryImagePath %>" alt="Image of <%= product.name %>">
+                                    </div>
+                                <% } %>
+                                <div class="product-listing-name-and-price">
+                                    <h3 class="product-listing-name"><%= product.name %></h3>
+                                    <h3 class="product-listing-price"><%=`$${product.price}`%></h3>
+                                </div>
+                            </a>
+                        </li>
+                    <% }); %>
+                </ul>
+            </section>
+        </section>
+    </main>
+    <div class="cart-sidebar-html-wrapper js-cart-sidebar-html-wrapper">
+        <%- include('./partials/cartSidebar')  %> 
+    </div>
+    <%- include('./partials/footer') %>
+</body>
+</html>

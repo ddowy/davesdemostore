@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/glide.core.min.css">
+    <link rel="stylesheet" href="css/glide.core.min.css.map">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="icon" href="/images/favicon.jpg">
+    <script defer src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+    <script defer src="/javascripts/navbar.js"></script>
+    <script defer src="/javascripts/homePage.js"></script>
+    <title>Website Title</title>
+</head>
+<body>
+    <%- include('./partials/header') %>
+    <main 
+        class="primary-main" style="background-size: cover;">
+        <div class="home-page-image-slider-wrap">
+            <div class="glide">
+                <div data-glide-el="track" class="glide__track">
+                    <ul class="glide__slides">
+                        <% products.forEach(product => { %>
+                            <% if (product.featured === true) {%> 
+                                <li class="glide__slide">
+                                    <img class="slider-img" src=" <%= product.featuredImagePath %> " alt="Carousel Image of <%= product.name %> ">
+                                </li>
+                            <% } %> 
+                        <% }) %> 
+                    </ul>
+                </div>
+                <div class="glide__arrows" data-glide-el="controls">
+                    <button class="glide__arrow glide__arrow--left" data-glide-dir="<">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <button class="glide__arrow glide__arrow--right" data-glide-dir=">">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="home-page-heading">
+            <h3>David Reed's Website</h3>
+            <p>A way to show my knowledge of web development</p>
+            <a href="/about"><button class="home-page-learn-more-btn">Learn More</button></a>
+        </div>
+    </main>
+    <div class="cart-sidebar-html-wrapper js-cart-sidebar-html-wrapper">
+        <%- include('./partials/cartSidebar') %>
+    </div>
+    <%- include('./partials/footer') %>
+</body>
+</html>

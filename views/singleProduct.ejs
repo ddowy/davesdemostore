@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="icon" href="/images/favicon.jpg">
+    <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer src="/javascripts/navbar.js"></script>
+    <script defer src="/javascripts/singleProductPage.js"></script>
+    <title>Product - Dream Party Rentals</title>
+</head>
+<body>
+    <%- include('./partials/header') %>
+    <main class="primary-main">
+        <section class="single-product">
+            <div class="single-product-image-container">
+                <img class="single-product-image" src="<%= products.primaryImagePath %>" alt="Image of <%= products.name %>">
+            </div>
+            <div class="single-product-details">
+                <div class="single-product-name-and-category">
+                    <div class="single-product-category"><%= products.category %></div>
+                    <div class="single-product-name"><%= products.name %></div>
+                </div>
+                <div class="single-product-price">
+                    <%= `$${products.price}` %> 
+                </div>
+                <div class="single-product-description">
+                    <%= products.desc %>
+                </div>
+                <div class="single-product-add-to-cart">
+                    <%- include('./partials/addToCart') %> 
+                </div>
+                <input class="js-id-field" type="hidden" value="<%= products._id %>">
+            </div>
+        </section>
+        <section class="more-like-this">
+            <div class="more-like-this-products-header">
+                <h2>You might also like</h2>    
+            </div>
+            <div class="more-like-this-products-wrap">
+                <% moreLikeThis.forEach(product => { %>
+                    <a href="/shop/<%= product._id %> ">
+                        <div class="more-like-this-product">
+                            <div class="more-like-this-product-img-container">
+                                <img class="more-like-this-product-img" src="<%= product.primaryImagePath %> " alt="Image of <%= product.name %> ">
+                            </div>
+                            <div class="more-like-this-product-info">
+                                <div class="more-like-this-product-name"><%= product.name %></div>
+                                <div class="more-like-this-product-price"><%= product.price %> </div>
+                            </div>
+                        </div>
+                    </a>
+                <% }) %>
+            </div>
+        </section>
+    </main>
+    <div class="cart-sidebar-html-wrapper js-cart-sidebar-html-wrapper">
+        <%- include('./partials/cartSidebar') %>
+    </div>
+    <%- include('./partials/footer') %>
+</body>
+</html>

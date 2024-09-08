@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="/images/favicon.jpg">
+    <script defer src="/javascripts/navbar.js"></script>
+    <script defer src="/javascripts/checkoutPage.js"></script>
+    <title>Checkout</title>
+</head>
+<body>
+    <%- include('./partials/header') %>
+    <main class="primary-main">
+        <div class="checkout-page-wrapper">
+            <h2 class="checkout-page-header">Checkout</h2>
+            <div style="overflow-x: auto; width: 100%;">
+                <table class="your-order">
+                    <thead class="your-order-head">
+                        <tr>
+                            <th colspan="2" style="border-bottom: solid black 1px;">Your Order</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <span>Product</span>
+                            </th>
+                            <th>
+                                <span>Subtotal</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="your-order-body"></tbody>
+                </table>
+            </div>
+            <div class="no-pricing-message">
+                <p>
+                    This website does not take any form of payment
+                </p>
+            </div>
+            <div class="if-successful-qoute">
+                <h2>Quote sent</h2>
+                <p>Thank you for checking me out!</p>
+                <a href="/shop"><button>Back To Shop</button></a>
+            </div>
+            <% if (messages.fail) { %>
+                <h2 class="checkout-fail-msg">
+                    <%= messages.fail %>
+                </h2>
+            <% } %> 
+            <% if (messages.success) { %>
+                <h2 class="checkout-success-msg">
+                    <%= messages.success %>
+                </h2>
+            <% } %>
+            <form class="cart-page-form" action="/send-quote" method="POST">
+                <div class="cart-page-form-pair">
+                    <div>
+                        <label for="name">Name:</label>
+                    </div>
+                    <div>
+                        <input type="text" name="name" placeholder="First & Last" required>
+                    </div>
+                </div>
+                <div class="cart-page-form-pair">
+                    <div>
+                        <label for="companyName">Company name:</label>
+                    </div>
+                    <div>
+                        <input type="text" name="companyName" placeholder="Company name" required>
+                    </div>
+                </div>
+                <div class="cart-page-form-pair">
+                    <div>
+                        <label for="phoneNumber">Phone number:</label>
+                    </div>
+                    <div>
+                        <input type="text" name="phoneNumber" placeholder="Phone number" required>
+                    </div>
+                </div>
+                <div class="cart-page-form-pair">
+                    <div>
+                        <label for="email">Email address:</label>
+                    </div>
+                    <div>
+                        <input type="email" name="email" placeholder="Email address" required>
+                    </div>
+                </div>
+                <div class="cart-page-form-pair">
+                    <div>
+                        <label for="additionalInfo">Leave me a message</label>
+                    </div>
+                    <div>
+                        <textarea name="additionalInfo" cols="30" rows="10" placeholder="Leave me a comment or message" style="resize: none; width: 100%; word-break: break-word;" required></textarea>
+                    </div>
+                </div>
+                <input class="checkout-cart-info-hidden-field" name="cart" type="hidden">
+                <div class="checkout-form-submit-btn">
+                    <button>Submit</button>
+                </div>
+            </form>
+        </div> 
+    </main>
+    <div class="cart-sidebar-html-wrapper js-cart-sidebar-html-wrapper">
+        <%- include('./partials/cartSidebar') %>
+    </div>
+    <%- include('./partials/footer') %>
+</body>
+</html>

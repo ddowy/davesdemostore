@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer src="/javascripts/adminPage.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Admin - Dream Party Rentals</title>
+</head>
+<body>
+    <header class="admin-header">
+        <h2 class="admin-page-header">Admin Page</h2>
+        <button class="admin-back-to-home-btn"><a class="admin-back-to-home-btn-link" href="/">Back to site</a></button>
+    </header>
+    <main class="admin-main">
+        <section class="admin-control-description">
+            <div class="greet-and-logout">
+                <h2>Hi <%= user %></h2>
+                <form action="/logout?_method=DELETE" method="POST">
+                    <button>Log Out</button>
+                </form>
+            </div>
+            <div class="admin-options">
+                <h2>Controls</h2>
+                <span>Press</span>
+                <button class="admin-upload-product" data-open-upload-pop-up>Upload new product</button>
+                <span>to upload a new product. Otherwise you can update and delete current products with the edit column on the table below.</span>
+                <% if (messages.err) { %>
+                    <h2 style="color: red; text-align: center;"><%= messages.err %></h2>
+                <% } %> 
+            </div>
+            <section class="current-products">
+                <div class="product-chart-display js-product-chart-display js-product-chart-display-none" data-product-chart-display>
+                    <div class="product-chart-header">
+                        <h2>Current Products</h2>
+                        <div class="product-column-headers">
+                            <span class="category-header-two">Category</span>
+                            <span class="featured-header">Featured</span>
+                            <span class="name-header">Name</span>
+                            <span class="price-header">Price</span>
+                            <span class="description-header">Description</span>
+                        </div>
+                    </div>
+                    <% if (products.length == 0) { %>
+                        <div class="product-row" style="text-align: center; font-size: 2rem;">
+                            No products currently
+                        </div>
+                    <% } %> 
+                    <% products.forEach(product=> { %>
+                        <div class="row-wrapper js-row-wrapper">
+                            <div class="product-row js-product-row" data-product-row="closed">
+                                <div class="product js-product product-category">
+                                    <p>
+                                        <%= product.category %>
+                                    </p>
+                                </div>
+                                <div class="product js-product product-featured">
+                                    <p>
+                                        <%= product.featured %>
+                                    </p>
+                                </div>
+                                <div class="product js-product product-name">
+                                    <p>
+                                        <%= product.name %>
+                                    </p>
+                                </div>
+                                <div class="product js-product product-price">
+                                    <p>
+                                        <%=product.price%>
+                                    </p>
+                                </div>
+                                <div class="product js-product product-desc">
+                                    <p>
+                                        <%= product.desc %>
+                                    </p>
+                                </div>
+                                <div class="btn-container js-btn-container">
+                                    <button class="arrow-btn js-arrow-btn"data-product-row-open-btn="false">&#8659;</button>
+                                </div>
+                            </div>
+                            <div class="edit-space js-edit-space">
+                                <div class="edit-space-wrapper js-edit-space-wrapper">
+                                    <div class="edit-space-data">
+                                        <ul class="edit-space-data-ul">
+                                            <h2 class="edit-space-data-ul-header">Product Data</h2>
+                                            <li class="edit-space-data-ul-li">
+                                                Name:
+                                                <div class="edit-space-data-equals">
+                                                    <%= product.name %>
+                                                </div>
+                                            </li>
+                                            <li class="edit-space-data-ul-li">
+                                                Price:
+                                                <div class="edit-space-data-equals">
+                                                    <%= product.price %>
+                                                </div>
+                                            </li>
+                                            <li  class="edit-space-data-ul-li">
+                                                Description:
+                                                <div class="edit-space-data-equals"><%= product.desc %></div>
+                                            </li>
+                                            <li class="edit-space-data-ul-li">
+                                                Category:
+                                                <div class="edit-space-data-equals">
+                                                    <%= product.category %>
+                                                </div>
+                                            </li>
+                                            <li class="edit-space-data-ul-li">
+                                                Featured:
+                                                <div class="edit-space-data-equals">
+                                                    <%= product.featured %> 
+                                                </div>
+                                            </li>
+                                            <li class="edit-space-data-ul-li">
+                                                ID:
+                                                <div class="edit-space-data-equals edit-space-data-equals-id">
+                                                    <%= product._id %>
+                                                </div>
+                                            </li>
+                                            <li class="edit-space-img-li">
+                                                <h2>Current Product Image</h2>
+                                                <% if (product.imgName !=null) {%>
+                                                    <img class="image-delete-display" height="100" width="75" src="<%=product.imagePath%>" alt="Current product image">
+                                                <% } else { %>
+                                                    <p>No image currently</p>
+                                                <% } %>
+                                            </li>
+                                        </ul>
+                                        <div class="edit-space-btns">
+                                            <button class="edit-space-btn edit-btn">Edit this Product</button>
+                                            <button class="edit-space-btn delete-btn">Delete this Product</button>
+                                        </div>
+                                    </div>
+                                    <div class="edit-form-container js-edit-form-container">
+                                        <form class="edit-product-form js-edit-product-form" action="/admin" method="POST" enctype="multipart/form-data">
+                                            <div class="edit-options-wrapper">
+                                                <div class="form-wrap">
+                                                    <div class="edit-options-heading">
+                                                        <p>
+                                                            Edit this product with the following controls, if you do not want to edit all the values of this product you
+                                                            can leave the fields you do not want to update blank and they will stay the same, only the fields entered
+                                                            will change.
+                                                        </p>
+                                                    </div>
+                                                    <div class="edit-form-item edit-form-name">
+                                                        <div>
+                                                            <label for="name">Name:</label>
+                                                        </div>
+                                                        <input class="admin-upload-form-input-name" type="text" name="name">
+                                                    </div>
+                                                    <div class="edit-form-item edit-form-price">
+                                                        <div>
+                                                            <label for="price">Price:</label>
+                                                        </div>
+                                                        <input class="admin-upload-form-input-price" type="text" name="price"> 
+                                                    </div>
+                                                    <div class="edit-form-item edit-form-description">
+                                                        <div>
+                                                            <label for="desc">Description:</label>
+                                                        </div>
+                                                        <textarea class="admin-upload-form-input-desc" name="desc" id="" cols="30" rows="10" style="resize: none; width: 100%; word-break: break-word;"></textarea>
+                                                    </div>
+                                                    <div class="edit-form-item edit-form-category">
+                                                        <div>
+                                                            <label for="category">Category:</label>
+                                                        </div>
+                                                        <select name="category" required="true">
+                                                            <option value="Select a Category">Select a Category</option>
+                                                            <option value="Animals">Animals</option>
+                                                            <option value="Arbors & Arches">Arbors & Arches</option>
+                                                            <option value="As Seen on Instagram">As Seen on Instagram</option>
+                                                            <option value="Back Drops">Back Drops</option>
+                                                            <option value="Buffet & Candy Carts">Buffet & Candy Carts</option>
+                                                            <option value="Cake Stands">Cake Stands</option>
+                                                            <option value="Consoles & Tables">Consoles & Tables</option>
+                                                            <option value="Couches and Chairs">Couches and Chairs</option>
+                                                            <option value="Faux Florals">Faux Florals</option>
+                                                            <option value="Light Up Numbers">Light Up Numbers</option>
+                                                            <option value="New Arrivals">New Arrivals</option>
+                                                            <option value="Package Gallery">Package Gallery</option>
+                                                            <option value="Plinths">Plinths</option>
+                                                            <option value="Themed Products">Themed Products</option>
+                                                            <option value="Wedding Accessories">Wedding Accessories</option>
+                                                            <option value="Welcome Signs and Wishing Wells">Welcome Signs and Wishing Wells</option>
+                                                            <option value="Pedestals">Pedestals</option>
+                                                            <option value="Tables">Tables</option>
+                                                            <option value="Display Cases">Display Cases</option>
+                                                            <option value="Props">Props</option>
+                                                            <option value="Display Walls">Display Walls</option>
+                                                            <option value="Kid’s Party">Kid’s Party</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="edit-form-item edit-form-featured">
+                                                        <div>
+                                                            <label for="featured">Featured:</label>
+                                                        </div>
+                                                        <select name="featured">
+                                                            <option value="True or False">True or False</option>
+                                                            <option value="false">False</option>
+                                                            <option value="true">True</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="photo-editor">
+                                                    <h2>Current-Image</h2>
+                                                    <div class="delete-images">
+                                                        <% if (product.imgName != null) {%> 
+                                                                <img class="image-delete-display" height="100" width="75" src="<%=product.imagePath%>" alt="Current product image">
+                                                        <% } else { %>
+                                                            <p>No image currently</p>
+                                                        <% } %> 
+                                                    </div>
+                                                    <h2>Replace Image</h2>
+                                                    <div class="add-images">
+                                                        <input class="admin-upload-form-input-imgName" type="file" name="imgName">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="edit-form-item edit-form-submit">Update Product</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %> 
+                </div>
+            </section>
+            <div class="window-size-error-message">
+                <h2>Please use a desktop or a larger screen to view and edit products</h2>
+            </div>
+        </section>
+        <section class="file-upload-pop-up" data-upload-pop-up-open="false">
+            <button class="pop-up-exit-btn" data-close-upload-pop-up>&#10006;</button>
+            <h2>Product Upload</h2>
+            <p>
+                To upload file, please complete all fields and press submit.
+            </p>
+            <form class="admin-input-form" action="/admin" method="POST" enctype="multipart/form-data">
+                <div class="admin-form-label-input-wrapper">
+                    <div class="admin-upload-form-label">
+                        <label for="name">Name of product:</label>
+                    </div>
+                    <div class="admin-upload-form-input">
+                        <input type="text" name="name" style="width: 100%;"  required="True">
+                    </div>
+                </div>
+                <div class="admin-form-label-input-wrapper">
+                    <div class="admin-upload-form-label">
+                        <label for="price">Price:</label>
+                    </div>
+                    <div class="admin-upload-form-input">
+                        <input type="text" name="price" style="width: 100%;"  required="True">
+                    </div>
+                </div>
+                <div class="admin-form-label-input-wrapper">
+                    <div class="admin-upload-form-label">
+                        <label for="desc">Description:</label>
+                    </div>
+                    <div class="admin-upload-form-input">
+                        <textarea name="desc" cols="30" rows="10" style="resize: none; width: 100%; word-break: break-word;" required="True"></textarea>
+                    </div>
+                </div>
+                <div class="admin-form-label-input-wrapper">
+                    <div class="admin-upload-form-label">
+                        <label for="cetegory">Category:</label>
+                    </div>
+                    <div class="admin-upload-form-input">
+                        <select name="category" required="true" required="True">
+                            <option value="">Select a category</option>
+                            <option value="Dinasours">Dinasours</option>
+                            <option value="Dragons">Dragons</option>
+                            <option value="Drinks">Drinks</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="admin-form-label-input-wrapper">
+                    <div class="admin-upload-form-label">
+                        <label for="featured">Featured: </label>
+                    </div>
+                    <div class="admin-upload-form-input">
+                        <select name="featured">
+                            <option value="false">False</option>
+                            <option value="true">True</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="admin-upload-form-input">
+                    <input type="file" class="filepond" name="imgName" required="True"/>
+                </div>
+                <div class="admin-upload-form-submit">
+                    <button type="submit">Upload</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

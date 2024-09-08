@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="icon" href="/images/favicon.jpg">
+    <script defer src="/javascripts/navbar.js"></script>
+    <title>Contact Me</title>
+</head>
+<body>
+    <%- include('./partials/header') %>
+    <main class="primary-main" style=" background-size: cover;">
+        <section class="contact-page-wrap">
+            <div class="contact-page-contact-info">
+                <div class="contact-page-contact-info-header">
+                    <p>
+                        If you would like to contact me directly, my contact info is listed below along with a form you can fill out to send a message. 
+                    </p>
+                </div>
+                <div class="contact-page-contact-info-phone-number">
+                    <span class="contact-page-key">Phone Number:</span><span class="contact-page-value">(555)-555-5555</span>
+                </div>
+                <div class="contact-page-contact-info-email">
+                    <span class="contact-page-key">Email:</span><span class="contact-page-value">myemail@email.com</span>
+                </div>
+            </div>
+            <% if (messages.fail) { %>
+                <h2 class="checkout-fail-msg" style="margin-top: 5px;">
+                    <%= messages.fail %>
+                </h2>
+            <% } %>
+            <% if (messages.success) { %>
+                <h2 class="checkout-success-msg" style="margin-top: 5px;">
+                    <%= messages.success %>
+                </h2>
+            <% } %>
+            <div class="contact-page-form-wrap">
+                <form class="contact-page-form" action="/send-custom-message" method="POST">
+                    <div class="contact-page-form-pair">
+                        <div>
+                            <label for="name">Name:</label>
+                        </div>
+                        <div>
+                            <input type="text" name="name" required>
+                        </div>
+                    </div>
+                    <div class="contact-page-form-pair">
+                        <div>
+                            <label for="email">Email:</label>
+                        </div>
+                        <div>
+                            <input type="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="contact-page-form-pair">
+                        <div>
+                            <label for="query">Message:</label>
+                        </div>
+                        <div>
+                            <textarea name="query" cols="30" rows="10" style="resize: none; word-break: break-word;"
+                                required></textarea>
+                        </div>
+                    </div>
+                    <div class="contact-page-submit-btn-container">
+                        <button class="contact-page-submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    <div class="cart-sidebar-html-wrapper js-cart-sidebar-html-wrapper">
+        <%- include('./partials/cartSidebar') %>
+    </div>
+    <%- include('./partials/footer') %>
+</body>
+</html>

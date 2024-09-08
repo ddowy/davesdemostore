@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="/images/favicon.jpg">
+    <script defer src="/javascripts/navbar.js"></script>
+    <script defer src="/javascripts/cartPage.js"></script>
+    <title>Cart</title>
+</head>
+<body>
+    <%- include('./partials/header') %>
+    <main class="primary-main" style="background-size: cover;">
+        <div class="cart-page-wrapper">
+            <div style="overflow-x: auto; width: 100%;">
+                <table class="cart-page-table">
+                    <thead class="cart-page-table-head">
+                        <tr>
+                            <th class="cart-page-table-header" colspan="4">Cart</th>
+                        </tr>
+                        <tr class="cart-page-table-column-header">
+                            <th>Product</th>
+                            <th class="cart-page-price-column-header">Price</th>
+                            <th>Amount</th>
+                            <th class="cart-page-total-column-header">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="cart-page-table-body"></tbody>
+                    <tfoot>
+                        <tr class="cart-page-table-foot">
+                            <td colspan="3" class="cart-page-foot-subtotal-label">Subtotal:</td>
+                            <td class="cart-page-foot-total"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="to-checkout-btn-container">
+                <a href="/checkout">
+                    <button class="cart-page-checkout-btn">To Checkout</button>
+                </a>
+            </div>
+        </div>
+    </main>
+    <div class="cart-sidebar-html-wrapper js-cart-sidebar-html-wrapper">
+        <%- include('./partials/cartSidebar') %>
+    </div>
+    <%- include('./partials/footer') %>
+</body>
+</html> 

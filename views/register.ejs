@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Register</title>
+</head>
+<body>
+    <main class="primary-main">
+        <div class="login-page-wrap">
+            <h2>Register</h2>
+            <% if (messages.info) { %>
+                <h2 style="color: red;">
+                    <%= messages.info %>
+                </h2>
+            <% } %>
+            <div class="form-wrap">
+                <form action="/register" method="POST">
+                    <div class="label-input-pair">
+                        <div class="label-div">
+                            <label for="name">Name</label>
+                        </div>
+                        <div class="input-div">
+                            <input type="text" name="name">
+                        </div>
+                    </div>
+                    <div class="label-input-pair">
+                        <div class="label-div">
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="input-div">
+                            <input type="text" name="email">
+                        </div>
+                    </div>
+                    <div class="label-input-pair">
+                        <div class="label-div">
+                            <label for="password">Password</label>
+                        </div>
+                        <div class="input-div">
+                            <input type="text" name="password">
+                        </div>
+                    </div>
+                    <div class="form-submit">
+                        <button>Register</button>
+                        <span class="or">or</span>
+                        <a class="register-link" href="/login">Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
