@@ -27,9 +27,11 @@ app.set('view engine', 'ejs')
 
 const generalRouter = require('./routes/general')
 const authRouter = require('./routes/auth')
+const adminRouter = require('./routes/admin')
 
 app.use('/', generalRouter)
 app.use('/', authRouter)
+app.use('/', adminRouter)
 app.use(notFoundMiddleWare)
 
 
